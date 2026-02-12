@@ -57,6 +57,13 @@ export default function DashboardLayout({
       className: `animate-fade-up delay-100 ${pathname === '/admin' || pathname === '/dashboard' ? 'glass-card' : ''}`,
       style: { margin: '4px 0', borderRadius: 8 }
     },
+    {
+      key: '/dashboard/summarizer',
+      icon: <RocketOutlined />,
+      label: <Link href="/dashboard/summarizer">AI Summarizer</Link>,
+      className: `animate-fade-up delay-150 ${pathname === '/dashboard/summarizer' ? 'glass-card' : ''}`,
+      style: { margin: '4px 0', borderRadius: 8 }
+    },
     ...(user?.role === 'admin' ? [
         {
             key: '/admin/users',

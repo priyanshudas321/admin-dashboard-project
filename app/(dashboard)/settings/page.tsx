@@ -34,7 +34,7 @@ export default function SettingsPage() {
                             <Input prefix={<UserOutlined />} />
                         </Form.Item>
                         <Form.Item label="Email" name="email">
-                            <Input prefix={<UserOutlined />} disabled />
+                            <Input prefix={<UserOutlined />} />
                         </Form.Item>
                         
                         <Divider style={{ borderColor: '#272B30' }} />

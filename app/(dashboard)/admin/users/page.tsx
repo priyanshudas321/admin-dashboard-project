@@ -62,6 +62,26 @@ export default function UsersPage() {
     }
   };
 
+  const handleToggleRole = async (user: User) => {
+    const newRole = user.role === 'admin' ? 'user' : 'admin';
+    try {
+        const res = await fetch(`/api/admin/users/${user.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: newRole }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to update role');
+
+        message.success(`User role updated to ${newRole.toUpperCase()}`);
+        fetchUsers();
+    } catch (error: any) {
+        console.error(error);
+        message.error(error.message);
+    }
+  };
+
   const columns = [
     {
       title: 'Email',
@@ -112,6 +132,19 @@ export default function UsersPage() {
             <Button type="primary" size="small" onClick={() => handleApprove(record.id)} style={{ borderRadius: 8 }}>
               Approve
             </Button>
+          )}
+          {record.email !== 'test@test.com' && (
+             <Button 
+                size="small" 
+                onClick={() => handleToggleRole(record)}
+                style={{ 
+                    borderRadius: 8, 
+                    borderColor: record.role === 'admin' ? '#ff4d4f' : '#6C5DD3',
+                    color: record.role === 'admin' ? '#ff4d4f' : '#6C5DD3'
+                }}
+             >
+                {record.role === 'admin' ? 'Remove Admin' : 'Make Admin'}
+             </Button>
           )}
         </Space>
       ),

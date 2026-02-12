@@ -6,10 +6,24 @@ import { verifyToken } from '@/lib/auth';
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const { status } = await req.json();
+    const { status, role } = await req.json();
 
-    if (!['pending', 'approved'].includes(status)) {
+    // Protection for Main Admin
+    // We need to fetch the user being updated first to check their email
+    const targetUserRes = await pool.query('SELECT email FROM users WHERE id = $1', [id]);
+    if (targetUserRes.rows.length > 0) {
+        const targetEmail = targetUserRes.rows[0].email;
+        if (targetEmail === 'test@test.com' && role) {
+            return NextResponse.json({ message: 'Cannot modify Main Admin role' }, { status: 403 });
+        }
+    }
+
+    if (status && !['pending', 'approved'].includes(status)) {
        return NextResponse.json({ message: 'Invalid status' }, { status: 400 });
+    }
+
+    if (role && !['admin', 'user'].includes(role)) {
+        return NextResponse.json({ message: 'Invalid role' }, { status: 400 });
     }
 
     const cookieStore = await cookies();
@@ -24,10 +38,29 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
-    const result = await pool.query(
-      'UPDATE users SET status = $1 WHERE id = $2 RETURNING id, email, status',
-      [status, id]
-    );
+    // Build dynamic query
+    let query = 'UPDATE users SET ';
+    const values = [];
+    let paramIndex = 1;
+
+    if (status) {
+        query += `status = $${paramIndex}, `;
+        values.push(status);
+        paramIndex++;
+    }
+    if (role) {
+        query += `role = $${paramIndex}, `;
+        values.push(role);
+        paramIndex++;
+    }
+
+    // Remove trailing comma and space
+    query = query.slice(0, -2); 
+    
+    query += ` WHERE id = $${paramIndex} RETURNING id, email, status, role`;
+    values.push(id);
+
+    const result = await pool.query(query, values);
 
     if (result.rowCount === 0) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
