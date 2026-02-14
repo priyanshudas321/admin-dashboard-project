@@ -1,0 +1,17 @@
+--- Verification Start ---
+1. Fetching Transcript for yC36gN-rqjo...
+[Transcript] Fetching info for video yC36gN-rqjo...
+[Transcript] Starting manual scrape...
+[Transcript] Fetching page: https://www.youtube.com/watch?v=yC36gN-rqjo
+[Transcript] Found caption track (scrape): Hindi (auto-generated) (hi)
+[Transcript] Fetching XML from: https://www.youtube.com/api/timedtext?v=yC36gN-rqj...
+[Transcript] XML empty. Trying fmt=json3...
+[Transcript] JSON3 fetch failed: Unexpected end of JSON input
+Transcript fetch error: Error: Parsed transcript is empty from both XML and JSON.
+    at getYouTubeTranscript (E:\vs code\antigravity related test projects\react dashboard project\admin-dashboard-type2\app\lib\youtubeTranscript.ts:113:26)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async verify (E:\vs code\antigravity related test projects\react dashboard project\admin-dashboard-type2\scripts\verify_fix.ts:20:24)
+❌ Verification Failed: Error: Failed to fetch transcript: Parsed transcript is empty from both XML and JSON.
+    at getYouTubeTranscript (E:\vs code\antigravity related test projects\react dashboard project\admin-dashboard-type2\app\lib\youtubeTranscript.ts:119:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async verify (E:\vs code\antigravity related test projects\react dashboard project\admin-dashboard-type2\scripts\verify_fix.ts:20:24)

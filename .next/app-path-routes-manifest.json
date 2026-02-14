@@ -1,0 +1,17 @@
+{
+  "/(auth)/login/page": "/login",
+  "/(auth)/signup/page": "/signup",
+  "/(dashboard)/admin/page": "/admin",
+  "/(dashboard)/admin/users/page": "/admin/users",
+  "/(dashboard)/dashboard/page": "/dashboard",
+  "/(dashboard)/settings/page": "/settings",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/admin/users/[id]/route": "/api/admin/users/[id]",
+  "/api/admin/users/route": "/api/admin/users",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/auth/me/route": "/api/auth/me",
+  "/api/auth/signup/route": "/api/auth/signup",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/"
+}
